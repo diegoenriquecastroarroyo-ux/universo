@@ -434,18 +434,18 @@
   const REPO_BASE = 'https://cdn.jsdelivr.net/gh/diegoenriquecastroarroyo-ux/universo@main/';
   const ES_MOVIL = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 820;
 
-  // ============================================================
-  // FIREBASE — reemplaza estos valores por los de TU proyecto
-  // (Firebase Console > Configuración del proyecto > tus apps > SDK config)
-  // ============================================================
-  const firebaseConfig = {
-    apiKey: "TU_API_KEY",
-    authDomain: "TU_PROYECTO.firebaseapp.com",
-    projectId: "TU_PROYECTO",
-    storageBucket: "TU_PROYECTO.appspot.com",
-    messagingSenderId: "TU_SENDER_ID",
-    appId: "TU_APP_ID"
-  };
+ // ============================================================
+// FIREBASE — reemplaza estos valores por los de TU proyecto
+// (Firebase Console > Configuración del proyecto > tus apps > SDK config)
+// ============================================================
+const firebaseConfig = {
+  apiKey: "AIzaSyDreFm4ZvheLrpQ_CzBkEB4r6mmH7a7uF4",
+  authDomain: "universoparaake.firebaseapp.com",
+  projectId: "universoparaake",
+  storageBucket: "universoparaake.firebasestorage.app",
+  messagingSenderId: "568688269379",
+  appId: "1:568688269379:web:12f8631a5dac2427c65cf6"
+};
   let db = null;
   try {
     firebase.initializeApp(firebaseConfig);
