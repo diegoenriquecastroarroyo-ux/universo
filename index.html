@@ -47,17 +47,17 @@ button{font-family:inherit}
 #lienzo{position:absolute;inset:0;display:block;touch-action:none}
 .estrella-cursor{position:absolute;width:6px;height:6px;background:#fff;border-radius:50%;box-shadow:0 0 10px 4px #ffd9f5;pointer-events:none;animation:aparecerEstrella 1.2s ease-out forwards;z-index:3}
 @keyframes aparecerEstrella{0%{opacity:1;transform:scale(.3)}70%{opacity:1;transform:scale(1.5)}100%{opacity:0;transform:scale(.6)}}
-.mensaje{position:absolute;color:#ffe9fb;font-weight:600;white-space:nowrap;pointer-events:none;animation:subirMensaje 2.5s ease-out forwards,brillarTexto .9s ease-in-out infinite alternate;z-index:3}
+.mensaje{position:absolute;color:#ffe9fb;font-weight:600;white-space:nowrap;pointer-events:none;animation:subirMensaje 2.5s ease-out forwards;text-shadow:0 0 12px #ff9bd6,0 0 28px rgba(214,139,255,.7);z-index:3}
 @keyframes brillarTexto{0%{text-shadow:0 0 10px #ff9bd6,0 0 18px rgba(255,155,214,.6),0 0 28px rgba(160,107,255,.4)}100%{text-shadow:0 0 22px #fff,0 0 40px #ff9bd6,0 0 65px #d68bff,0 0 90px rgba(214,139,255,.6)}}
 @keyframes subirMensaje{0%{opacity:0;transform:translateY(10px) scale(.95)}20%{opacity:1;transform:none}80%{opacity:1}100%{opacity:0;transform:translateY(-40px) scale(1.03)}}
 #titulo-galaxia{position:fixed;top:25px;width:100%;text-align:center;color:#f5d0ff;text-shadow:0 0 15px #d68bff,0 0 30px rgba(214,139,255,.5);font-size:1.2em;font-weight:600;z-index:5;pointer-events:none}
 
 /* REPRODUCTOR Y BOTONES */
-body:not(.dentro) #reproductor,body:not(.dentro) #botonReiniciar{display:none}
-#reproductor{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);width:min(94vw,380px);padding:12px 16px 10px;border-radius:24px;background:rgba(22,6,44,.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(214,139,255,.4);box-shadow:0 0 28px rgba(160,107,255,.35);z-index:999;text-align:center}
+body:not(.dentro) #reproductor,body:not(.dentro) #botonReiniciar,body:not(.dentro) #botonPreguntas,body.quiz-abierto #botonPreguntas{display:none}
+#reproductor{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);width:min(94vw,380px);padding:12px 16px 10px;border-radius:24px;background:rgba(18,5,36,.78);border:1px solid rgba(214,139,255,.4);box-shadow:0 0 28px rgba(160,107,255,.35);z-index:999;text-align:center}
 #tituloCancion{color:#f5d0ff;font-size:.95em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 0 12px rgba(214,139,255,.7);margin-bottom:8px}
 #barra{height:5px;border-radius:5px;background:rgba(255,255,255,.14);cursor:pointer;margin-bottom:10px;overflow:hidden}
-#progreso{height:100%;width:0;background:linear-gradient(90deg,#ff9bd6,#a06bff)}
+#progreso{height:100%;width:100%;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,#ff9bd6,#a06bff)}
 #controles{display:flex;align-items:center;justify-content:center;gap:18px}
 #controles button{border:none;background:none;color:#f5d0ff;font-size:1.5em;cursor:pointer;width:44px;height:44px;border-radius:50%}
 #controles #botonMusica{width:54px;height:54px;background:radial-gradient(circle at 35% 30%,rgba(255,155,214,.35),rgba(160,107,255,.15));box-shadow:0 0 20px rgba(214,139,255,.55);transition:transform .25s,box-shadow .25s}
@@ -68,8 +68,15 @@ body:not(.dentro) #reproductor,body:not(.dentro) #botonReiniciar{display:none}
 #botonGiroscopio{right:16px;display:none}
 
 /* ESTRELLAS SECRETAS Y MODALES */
-.estrella-secreta{position:fixed;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle,#fffdf0 0%,#ffe9a8 40%,rgba(255,233,168,0) 75%);box-shadow:0 0 18px 6px rgba(255,233,168,.8);cursor:pointer;z-index:6;display:none;animation:latidoEstrella 1.6s ease-in-out infinite}
-@keyframes latidoEstrella{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.4);opacity:1}}
+.estrella-secreta{position:fixed;left:0;top:0;width:44px;height:44px;margin:-22px 0 0 -22px;cursor:pointer;z-index:6;display:none;will-change:transform,opacity}
+.estrella-secreta i{position:absolute;inset:0;margin:auto;display:block;pointer-events:none}
+.estrella-secreta .brillo{width:42px;height:42px;border-radius:50%;background:radial-gradient(circle,rgba(255,233,168,.85) 0%,rgba(255,182,230,.35) 42%,transparent 70%);animation:brilloEstrella 2.2s ease-in-out infinite}
+.estrella-secreta .forma{width:20px;height:20px;background:linear-gradient(135deg,#fffdf0,#ffe29b 55%,#ffb6e6);clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);animation:giroEstrella 6s linear infinite}
+.estrella-secreta.encontrada .brillo{animation:none;opacity:.3}
+.estrella-secreta.encontrada .forma{animation:none;filter:grayscale(.7)}
+@keyframes brilloEstrella{0%,100%{transform:scale(.8);opacity:.6}50%{transform:scale(1.3);opacity:1}}
+@keyframes giroEstrella{to{transform:rotate(360deg)}}
+
 .overlay-modal{position:fixed;inset:0;background:rgba(5,0,15,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;z-index:50;opacity:0;pointer-events:none;transition:opacity .8s;padding:30px}
 .overlay-modal.mostrar{opacity:1;pointer-events:auto}
 .overlay-modal h2{color:#ffe9fb;font-size:1.6em;text-shadow:0 0 20px #ff9bd6,0 0 40px #d68bff;margin-bottom:20px;max-width:600px;animation:brillarTexto 1.2s ease-in-out infinite alternate}
@@ -81,6 +88,19 @@ body:not(.dentro) #reproductor,body:not(.dentro) #botonReiniciar{display:none}
 .opcion-pregunta:hover{transform:scale(1.03);background:rgba(160,107,255,.32)}
 #opcionesPregunta{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;width:100%;max-width:400px}
 #inputPregunta{display:none;padding:12px;border-radius:12px;border:none;width:100%;max-width:400px;margin-bottom:20px;font-size:1em}
+
+/* PREGUNTAS */
+[hidden]{display:none!important}
+#botonPreguntas{position:fixed;top:84px;left:50%;transform:translateX(-50%);padding:11px 24px;border:none;border-radius:50px;background:linear-gradient(135deg,#ff9bd6,#a06bff);color:#fff;font-size:.95em;cursor:pointer;z-index:999;box-shadow:0 0 22px rgba(255,155,214,.65)}
+.cerrar-quiz{position:absolute;top:18px;right:18px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(214,139,255,.5);background:rgba(160,107,255,.18);color:#f5d0ff;font-size:1.1em;cursor:pointer}
+#vistaPregunta,#vistaResultado{display:flex;flex-direction:column;align-items:center;width:100%}
+#opcionesPregunta.bloqueado{pointer-events:none}
+.opcion-pregunta.correcta{background:rgba(120,255,180,.25);border-color:#8fffc0}
+.opcion-pregunta.incorrecta{background:rgba(255,120,150,.25);border-color:#ff8fa6}
+#retroQuiz{min-height:1.5em}
+#estrellasResultado{color:#ffe29b;font-size:2.6em;letter-spacing:.12em;margin-bottom:14px;text-shadow:0 0 18px #ffb6e6}
+#estrellasResultado span{display:inline-block;animation:popEstrella .5s both}
+@keyframes popEstrella{0%{transform:scale(0);opacity:0}70%{transform:scale(1.4)}100%{transform:scale(1);opacity:1}}
 </style>
 </head>
 <body>
@@ -111,6 +131,7 @@ body:not(.dentro) #reproductor,body:not(.dentro) #botonReiniciar{display:none}
 </div>
 <button id="botonReiniciar" aria-label="Reiniciar experiencia">Reiniciar ✨</button>
 <button id="botonGiroscopio" aria-label="Activar giroscopio">Activar giroscopio 🌀</button>
+<button id="botonPreguntas">Preguntas 💌</button>
 <div id="contenedorEstrellas"></div>
 
 <div id="modalSecreto" class="overlay-modal">
@@ -121,11 +142,22 @@ body:not(.dentro) #reproductor,body:not(.dentro) #botonReiniciar{display:none}
 </div>
 
 <div id="modalPregunta" class="overlay-modal">
-  <h2>✨ Una preguntita para ti ✨</h2>
-  <p id="textoPregunta"></p>
-  <div id="opcionesPregunta"></div>
-  <input type="text" id="inputPregunta" placeholder="Escribe tu respuesta...">
-  <button class="principal" id="botonEnviarPregunta">Enviar respuesta 💌</button>
+  <button class="cerrar-quiz" id="cerrarQuiz" aria-label="Cerrar preguntas">✕</button>
+  <div id="vistaPregunta">
+    <p id="progresoQuiz"></p>
+    <h2 id="textoPregunta"></h2>
+    <div id="opcionesPregunta"></div>
+    <input type="text" id="inputPregunta" placeholder="Escribe tu respuesta...">
+    <button class="principal" id="botonEnviarPregunta">Enviar respuesta 💌</button>
+    <p id="retroQuiz"></p>
+  </div>
+  <div id="vistaResultado" hidden>
+    <h2>¡Terminaste, Ake! 💜</h2>
+    <div id="estrellasResultado"></div>
+    <p id="puntosResultado"></p>
+    <p id="mensajeResultado"></p>
+    <button class="principal" id="botonVolverQuiz">Volver al universo 💫</button>
+  </div>
 </div>
 
 <div id="modalFinal" class="overlay-modal">
@@ -162,31 +194,31 @@ let db = null;
 try { firebase.initializeApp(firebaseConfig); db = firebase.firestore(); }
 catch (e) { console.warn('Firebase no configurado todavía:', e); }
 
-function guardarRespuesta(p, respuesta, correcta) {
+function guardarRespuesta(p, respuesta, correcta, puntos) {
   if (!db) return;
   db.collection('respuestas').add({
-    preguntaId: p.id, pregunta: p.texto, tipo: p.tipo, respuesta, correcta,
+    preguntaId: p.id, pregunta: p.texto, tipo: p.tipo, respuesta, correcta, puntos,
     fecha: firebase.firestore.FieldValue.serverTimestamp()
   }).catch(err => console.error('Error guardando respuesta:', err));
 }
 
 /* ---------- PREGUNTAS ----------
    cerrada = botones, abierta = texto libre.
-   respuestaCorrecta: null = solo se guarda; 'EDITA_AQUI' = aún sin definir (no califica);
+   respuestaCorrecta: null = no se califica (dan 2 pts por responder); 'EDITA_AQUI' = aún sin definir;
    cualquier otro texto = se compara para saber si acertó. */
 const cerrada = (id, texto, opciones, r = 'EDITA_AQUI') => ({ id, tipo: 'cerrada', texto, opciones, respuestaCorrecta: r });
 const abierta = (id, texto, r = null) => ({ id, tipo: 'abierta', texto, respuestaCorrecta: r });
 const PREGUNTAS = [
-  cerrada(1, '¿En qué mes nos conocimos?', ['Enero', 'Marzo', 'Julio', 'Octubre']),
-  cerrada(2, '¿Dónde fue nuestra primera cita?', ['Opción A', 'Opción B', 'Opción C']),
-  cerrada(3, '¿Verdadero o falso: la primera vez que hablamos fue por redes sociales?', ['Verdadero', 'Falso']),
-  cerrada(4, '¿Cuál es mi comida favorita?', ['Opción A', 'Opción B', 'Opción C']),
-  cerrada(5, '¿Qué película vimos juntos esa vez?', ['Opción A', 'Opción B', 'Opción C']),
-  cerrada(6, '¿En qué estación del año nos conocimos?', ['Primavera', 'Verano', 'Otoño', 'Invierno']),
-  cerrada(7, '¿Cuál fue el primer apodo que te puse?', ['Opción A', 'Opción B', 'Opción C']),
-  cerrada(8, '¿Verdadero o falso: te puse nervioso(a) la primera vez que nos vimos?', ['Verdadero', 'Falso']),
-  cerrada(9, '¿Qué canción nos recuerda a los dos?', ['Opción A', 'Opción B', 'Opción C']),
-  cerrada(10, '¿Cuál fue el primer regalo que te di?', ['Opción A', 'Opción B', 'Opción C']),
+  cerrada(1, '¿En qué mes nos conocimos?', ['Enero', 'Marzo', 'Julio', 'Octubre'], 'Marzo'),
+  cerrada(2, '¿Dónde fue nuestra primera cita?', ['El parque', 'El cine', 'El mercado', 'Una cafetería'], 'mercado'),
+  cerrada(3, '¿Verdadero o falso: la primera vez que hablamos fue por redes sociales?', ['Verdadero', 'Falso'], 'Falso'),
+  cerrada(4, '¿Cuál es mi comida favorita?', ['Pizza', 'Enchiladas', 'Tacos', 'Hamburguesas'], 'Enchiladas'),
+  cerrada(5, '¿Qué película vimos juntos esa vez?', ['Miraculous', 'Frozen', 'Coco', 'Barbie'], 'Miraculous'),
+  cerrada(6, '¿En qué estación del año nos conocimos?', ['Primavera', 'Verano', 'Otoño', 'Invierno'], 'Primavera'),
+  cerrada(7, '¿Cuál era el apodo con el que más te decía?', ['Princesa', 'Bebé', 'Cachetona', 'Mi vida'], 'Cachetona'),
+  cerrada(8, '¿Verdadero o falso: te puse nervioso(a) la primera vez que nos vimos?', ['Verdadero', 'Falso'], null),
+  cerrada(9, '¿Qué canción nos recuerda a los dos?', ['Despacito', 'Lo tienes todo', 'Tusa', 'Bailando'], 'Lo tienes todo'),
+  cerrada(10, '¿Cuál fue el primer regalo que te di?', ['Un oso de peluche', 'Unas flores', 'Un llavero', 'Un Stitch'], 'Stitch'),
   abierta(11, '¿Cómo fue nuestro primer beso? Cuéntamelo con tus palabras'),
   abierta(12, '¿Cómo nos conocimos, según tú?', 'EDITA_AQUI'),
   abierta(13, '¿Cuál dirías que fue nuestro momento más bonito juntos?'),
@@ -198,50 +230,128 @@ const PREGUNTAS = [
   abierta(19, '¿Qué es lo que más te gustaba hacer conmigo?'),
   abierta(20, 'Si pudieras revivir un solo día de todos los que pasamos juntos, ¿cuál sería?')
 ];
-const PROBABILIDAD_PREGUNTA = 0.08; // 8% por toque ≈ 1 de cada 12
-const siguientePregunta = bolsaDe(PREGUNTAS);
-let preguntaActiva = null;
+const PUNTOS_ACIERTO = 10, PUNTOS_PARTICIPACION = 2;
+const esCalificable = p => p.tipo === 'cerrada' && p.respuestaCorrecta && p.respuestaCorrecta !== 'EDITA_AQUI';
+const TOTAL_CALIFICADAS = PREGUNTAS.filter(esCalificable).length;
+const PUNTOS_MAX = TOTAL_CALIFICADAS * PUNTOS_ACIERTO + (PREGUNTAS.length - TOTAL_CALIFICADAS) * PUNTOS_PARTICIPACION;
+const MENSAJES_RESULTADO = [
+  '',
+  'Tenemos que repasar nuestra historia juntos 💕',
+  'Uy... creo que me debes varios castigos 😏',
+  'Nada mal, aunque algunos detalles se te escaparon 😏',
+  'Casi perfecto, se nota que guardas nuestros momentos 💫',
+  'Te acuerdas de todo, Ake. Eres increíble 💜'
+];
+const RETRO_ACIERTO = [
+  '¡Exacto! Te acuerdas de todo 💜', '¡Esa era! Sabía que lo sabías ✨', 'Correcto, mi memoria favorita eres tú 💫',
+  '¡Bingo! Cada día me sorprendes más 💕', 'Perfecto, cero dudas contigo 🌟', '¡Sí! Esa respuesta merece una estrellita ⭐'
+];
+const RETRO_FALLO = [
+  'Uy, esa no era... me debes un castigo 😏', 'Nooo, casi... pero te perdono con un beso 😘', 'Esa no era, ¡pero sigues siendo mi favorita! 💜',
+  'Mmm... creo que alguien necesita repasar nuestra historia 🙈', 'Fallaste, pero tu sonrisa compensa todo ✨', 'Ay, Ake... esa me dolió un poquito 😅💕'
+];
+const RETRO_NEUTRA = [
+  'Gracias por contarme eso 💫', 'Me encantó leerte 💜', 'Guardo tu respuesta en mi estrella favorita ✨',
+  'Qué bonito lo que escribes, de verdad 💕', 'Me hiciste sonreír con eso 🥰', 'Cada palabra tuya brilla más que una estrella 🌟'
+];
+const ultimoElegido = new Map();
+function elegir(lista) {
+  let i;
+  do { i = Math.random() * lista.length | 0; } while (i === ultimoElegido.get(lista) && lista.length > 1);
+  ultimoElegido.set(lista, i);
+  return lista[i];
+}
+let quiz;
+
+function reiniciarQuiz() {
+  quiz = { i: 0, puntos: 0, aciertos: 0, terminado: false, bloqueado: false };
+  $('modalPregunta').classList.remove('mostrar');
+  document.body.classList.remove('quiz-abierto');
+}
+reiniciarQuiz();
+
+function abrirQuiz() {
+  $('modalPregunta').classList.add('mostrar');
+  document.body.classList.add('quiz-abierto');
+  quiz.terminado ? mostrarResultado() : mostrarPregunta();
+}
+function cerrarQuiz() {
+  $('modalPregunta').classList.remove('mostrar');
+  document.body.classList.remove('quiz-abierto');
+}
 
 function mostrarPregunta() {
-  const p = preguntaActiva = siguientePregunta();
+  const p = PREGUNTAS[quiz.i];
+  $('vistaPregunta').hidden = false;
+  $('vistaResultado').hidden = true;
+  $('progresoQuiz').textContent = `Pregunta ${quiz.i + 1} de ${PREGUNTAS.length} · ${quiz.puntos} pts`;
   $('textoPregunta').textContent = p.texto;
+  $('retroQuiz').textContent = '';
+  quiz.bloqueado = false;
   const cont = $('opcionesPregunta');
   cont.innerHTML = '';
-  const cerradaTipo = p.tipo === 'cerrada';
-  $('inputPregunta').style.display = cerradaTipo ? 'none' : 'block';
-  $('botonEnviarPregunta').style.display = cerradaTipo ? 'none' : 'inline-block';
-  if (cerradaTipo) {
+  cont.classList.remove('bloqueado');
+  const esCerrada = p.tipo === 'cerrada';
+  $('inputPregunta').style.display = esCerrada ? 'none' : 'block';
+  $('botonEnviarPregunta').style.display = esCerrada ? 'none' : 'inline-block';
+  if (esCerrada) {
     p.opciones.forEach(op => {
       const btn = document.createElement('button');
       btn.className = 'opcion-pregunta';
       btn.textContent = op;
-      btn.addEventListener('click', () => procesarRespuestaPregunta(op));
+      btn.addEventListener('click', () => responder(op, btn));
       cont.appendChild(btn);
     });
   } else $('inputPregunta').value = '';
-  $('modalPregunta').classList.add('mostrar');
   vibrarSuave();
 }
 
-function procesarRespuestaPregunta(respuesta) {
-  const p = preguntaActiva;
-  if (!p) return;
-  let correcta = null;
-  if (p.respuestaCorrecta && p.respuestaCorrecta !== 'EDITA_AQUI') {
+function responder(respuesta, btn) {
+  if (quiz.bloqueado) return;
+  const q = quiz, p = PREGUNTAS[q.i];
+  let correcta = null, puntos = PUNTOS_PARTICIPACION;
+  if (esCalificable(p)) {
     correcta = respuesta.trim().toLowerCase().includes(p.respuestaCorrecta.trim().toLowerCase());
+    puntos = correcta ? PUNTOS_ACIERTO : 0;
+    if (correcta) q.aciertos++;
   }
-  guardarRespuesta(p, respuesta, correcta);
-  $('modalPregunta').classList.remove('mostrar');
-  preguntaActiva = null;
-  setTimeout(() => flotarMensaje(
-    correcta === true ? '¡Exacto! Te acuerdas de todo 💜' :
-    correcta === false ? 'Uy, esa no era... me debes un castigo 😏' : 'Gracias por contarme eso 💫',
-    W / 2 - 100, H / 2), 400);
+  q.bloqueado = true;
+  q.puntos += puntos;
+  guardarRespuesta(p, respuesta, correcta, puntos);
+  if (btn) {
+    $('opcionesPregunta').classList.add('bloqueado');
+    btn.classList.add(correcta === false ? 'incorrecta' : 'correcta');
+  }
+  $('retroQuiz').textContent = elegir(correcta === true ? RETRO_ACIERTO : correcta === false ? RETRO_FALLO : RETRO_NEUTRA);
+  setTimeout(() => {
+    if (q !== quiz) return; // el quiz se reinició mientras tanto
+    if (++q.i >= PREGUNTAS.length) { q.terminado = true; mostrarResultado(); }
+    else mostrarPregunta();
+  }, 1400);
 }
-$('botonEnviarPregunta').addEventListener('click', () => {
+
+function enviarAbierta() {
   const val = $('inputPregunta').value.trim();
-  if (val) procesarRespuestaPregunta(val);
-});
+  if (val) responder(val, null);
+}
+
+function mostrarResultado() {
+  $('vistaPregunta').hidden = true;
+  $('vistaResultado').hidden = false;
+  const pct = TOTAL_CALIFICADAS ? quiz.aciertos / TOTAL_CALIFICADAS : 1;
+  const n = pct >= .9 ? 5 : pct >= .7 ? 4 : pct >= .5 ? 3 : pct >= .3 ? 2 : 1;
+  $('estrellasResultado').innerHTML = Array.from({ length: 5 }, (_, k) =>
+    `<span style="animation-delay:${k * .3}s">${k < n ? '★' : '☆'}</span>`).join('');
+  $('puntosResultado').textContent = `${quiz.puntos} de ${PUNTOS_MAX} puntos · ${quiz.aciertos} de ${TOTAL_CALIFICADAS} aciertos`;
+  $('mensajeResultado').textContent = MENSAJES_RESULTADO[n];
+  vibrarSuave();
+}
+
+$('botonPreguntas').addEventListener('click', abrirQuiz);
+$('cerrarQuiz').addEventListener('click', cerrarQuiz);
+$('botonVolverQuiz').addEventListener('click', cerrarQuiz);
+$('botonEnviarPregunta').addEventListener('click', enviarAbierta);
+$('inputPregunta').addEventListener('keydown', e => { if (e.key === 'Enter') enviarAbierta(); });
 
 /* ---------- INTRO ---------- */
 const inicio = $('inicio'), galaxia = $('galaxia'), boton = $('botonEntrar'), textoTipeo = $('textoTipeo');
@@ -413,7 +523,6 @@ window.addEventListener('resize', () => {
   W = window.innerWidth; H = window.innerHeight;
   camara.aspect = W / H; camara.updateProjectionMatrix();
   renderizador.setSize(W, H);
-  posicionarEstrellasSecretas();
 });
 
 /* ---------- CONTROL: ARRASTRE, TOQUE Y GIROSCOPIO ---------- */
@@ -471,19 +580,41 @@ function lanzarMeteoro3D() {
 }
 setInterval(() => { if (universoActivo && Math.random() < (ES_MOVIL ? .55 : .8)) lanzarMeteoro3D(); }, ES_MOVIL ? 2200 : 1600);
 
+const _cola = new THREE.Vector3();
 function actualizarMeteoros3D() {
   for (let i = meteoros3D.length - 1; i >= 0; i--) {
     const m = meteoros3D[i];
     m.pos.addScaledVector(m.dir, m.vel);
     m.vida -= .013;
-    const cola = m.pos.clone().addScaledVector(m.dir, -m.largo), p = m.geo.attributes.position;
+    const cola = _cola.copy(m.pos).addScaledVector(m.dir, -m.largo), p = m.geo.attributes.position;
     p.setXYZ(0, m.pos.x, m.pos.y, m.pos.z); p.setXYZ(1, cola.x, cola.y, cola.z); p.needsUpdate = true;
     m.mat.opacity = Math.max(m.vida, 0);
     if (m.vida <= 0) { escena.remove(m.linea); m.geo.dispose(); m.mat.dispose(); meteoros3D.splice(i, 1); }
   }
 }
 
-function animar3D() {
+const modales = ['modalFinal', 'modalSecreto', 'modalPregunta'].map($);
+let saltos = 0, acumMs = 0, cuadros = 0, ultimoT = 0;
+let pixelRatio = Math.min(window.devicePixelRatio || 1, ES_MOVIL ? 1.5 : 2);
+
+// Calidad adaptativa: solo baja la resolución si el equipo va por debajo de ~45 fps, y nunca por debajo de 1x.
+function ajustarResolucion(ahora) {
+  if (tiempo3D < 120) { ultimoT = ahora; return; } // calentamiento inicial
+  const dt = ahora - ultimoT; ultimoT = ahora;
+  if (dt > 250) return;
+  acumMs += dt; cuadros++;
+  if (cuadros < 90) return;
+  const fps = 1000 / (acumMs / cuadros);
+  acumMs = 0; cuadros = 0;
+  if (fps < 45 && pixelRatio > 1) { pixelRatio = Math.max(1, pixelRatio - .25); renderizador.setPixelRatio(pixelRatio); }
+}
+
+function animar3D(ahora = performance.now()) {
+  requestAnimationFrame(animar3D);
+  if (modales.some(m => m.classList.contains('mostrar'))) {
+    ultimoT = ahora;
+    if (++saltos & 1) return; // con un modal encima la galaxia se dibuja a la mitad de cuadros
+  } else ajustarResolucion(ahora);
   tiempo3D++;
   grupoGalaxia.rotation.y += .0009;
   estrellasBrillantes.material.opacity = .55 + Math.sin(tiempo3D * .02) * .3;
@@ -500,11 +631,12 @@ function animar3D() {
   const el = Math.max(.12, Math.min(.9, elevacionCamara));
   camara.position.set(Math.sin(anguloCamara) * distanciaCamara * Math.cos(el), Math.sin(el) * distanciaCamara, Math.cos(anguloCamara) * distanciaCamara * Math.cos(el));
   camara.lookAt(0, 0, 0);
+  actualizarEstrellasSecretas();
   renderizador.render(escena, camara);
-  requestAnimationFrame(animar3D);
 }
 
 boton.addEventListener('click', () => {
+  if (universoActivo) return;
   document.body.classList.add('dentro');
   inicio.classList.add('oculto');
   setTimeout(() => { inicio.style.display = 'none'; }, 1500);
@@ -551,7 +683,8 @@ function mostrarFinal() {
 }
 function reiniciarExperiencia() {
   ['modalFinal', 'modalSecreto', 'modalPregunta'].forEach(id => $(id).classList.remove('mostrar'));
-  preguntaActiva = null; contadorToques = 0; finalMostrado = false;
+  reiniciarQuiz(); contadorToques = 0; finalMostrado = false;
+  estrellasSecretas.forEach(e => { e.encontrada = false; e.el.classList.remove('encontrada'); });
   poolMensajes.concat(poolEstrellas).forEach(el => { el.style.display = 'none'; });
 }
 $('botonReiniciarFinal').addEventListener('click', reiniciarExperiencia);
@@ -563,7 +696,6 @@ function generarMensajeEnPunto(x, y) {
   const ahora = Date.now();
   if (ahora - ultimoTiempoMensaje < (ES_MOVIL ? 220 : 160)) return;
   ultimoTiempoMensaje = ahora;
-  if (Math.random() < PROBABILIDAD_PREGUNTA) { mostrarPregunta(); revisarFinal(); return; }
   const e = poolEstrellas[iE]; iE = (iE + 1) % poolEstrellas.length;
   e.style.display = 'block'; e.style.left = x + 'px'; e.style.top = y + 'px';
   reiniciarAnimacion(e);
@@ -572,30 +704,41 @@ function generarMensajeEnPunto(x, y) {
   revisarFinal();
 }
 
-/* ---------- ESTRELLAS SECRETAS ---------- */
+/* ---------- ESTRELLAS SECRETAS ----------
+   Viven dentro de la galaxia: orbitan, giran con ella y se desvanecen a ratos, así que hay que cazarlas. */
 const estrellasEspeciales = [
-  { xPorc: .78, yPorc: .28, mensaje: "Ake, esta es la primera estrella que escondí para ti, la más brillante de toda la galaxia. Ojalá pudieras ver lo mucho que significas para mí 💜" },
-  { xPorc: .20, yPorc: .62, mensaje: "Esta es la segunda estrella secreta. La escondí pensando en cada momento bonito que hemos vivido juntos 💫" },
-  { xPorc: .58, yPorc: .80, mensaje: "Y esta es la tercera y última estrella escondida en este universo. Gracias por encontrarlas todas, tal como encontraste un lugar en mi corazón ✨" }
+  { radio: .55, vel: .0016, bob: .021, mensaje: "Ake, esta es la primera estrella que escondí para ti, la más brillante de toda la galaxia. Ojalá pudieras ver lo mucho que significas para mí 💜" },
+  { radio: .82, vel: -.0022, bob: .015, mensaje: "Esta es la segunda estrella secreta. La escondí pensando en cada momento bonito que hemos vivido juntos 💫" },
+  { radio: .32, vel: .0027, bob: .027, mensaje: "Y esta es la tercera y última estrella escondida en este universo. Gracias por encontrarlas todas, tal como encontraste un lugar en mi corazón ✨" }
 ];
 const fotoSecreta = $('fotoSecreta');
-const elementosEstrellas = estrellasEspeciales.map(estrella => {
-  const el = document.createElement('div');
-  el.className = 'estrella-secreta'; el.title = '✨';
-  el.addEventListener('click', e => { e.stopPropagation(); abrirEstrellaSecreta(estrella); });
-  $('contenedorEstrellas').appendChild(el);
-  return el;
+const estrellasSecretas = estrellasEspeciales.map(d => {
+  const e = { ...d, radio: d.radio * ES, ang: Math.random() * 6.28, fase: Math.random() * 6.28, encontrada: false, el: document.createElement('div') };
+  e.el.className = 'estrella-secreta';
+  e.el.innerHTML = '<i class="brillo"></i><i class="forma"></i>';
+  e.el.addEventListener('click', ev => { ev.stopPropagation(); abrirEstrellaSecreta(e); });
+  $('contenedorEstrellas').appendChild(e.el);
+  return e;
 });
-function posicionarEstrellasSecretas() {
-  elementosEstrellas.forEach((el, i) => {
-    el.style.left = (W * estrellasEspeciales[i].xPorc - 13) + 'px';
-    el.style.top = (H * estrellasEspeciales[i].yPorc - 13) + 'px';
-  });
+const mostrarEstrellasSecretas = () => estrellasSecretas.forEach(e => { e.el.style.display = 'block'; });
+
+const _v = new THREE.Vector3();
+function actualizarEstrellasSecretas() {
+  camara.updateMatrixWorld();
+  grupoGalaxia.updateMatrixWorld();
+  for (const e of estrellasSecretas) {
+    e.ang += e.vel;
+    _v.set(Math.cos(e.ang) * e.radio, Math.sin(tiempo3D * e.bob + e.fase) * ES * .07, Math.sin(e.ang) * e.radio);
+    grupoGalaxia.localToWorld(_v);
+    _v.project(camara);
+    e.el.style.transform = `translate3d(${(_v.x * .5 + .5) * W}px,${(.5 - _v.y * .5) * H}px,0)`;
+    e.el.style.opacity = e.encontrada ? .45 : .3 + .7 * Math.max(0, Math.sin(tiempo3D * .012 + e.fase));
+  }
 }
-posicionarEstrellasSecretas();
-const mostrarEstrellasSecretas = () => elementosEstrellas.forEach(el => { el.style.display = 'block'; });
 
 function abrirEstrellaSecreta(estrella) {
+  estrella.encontrada = true;
+  estrella.el.classList.add('encontrada');
   $('mensajeSecreto').textContent = estrella.mensaje;
   fotoSecreta.classList.remove('mostrar-img');
   fotoSecreta.onload = () => fotoSecreta.classList.add('mostrar-img');
@@ -647,7 +790,7 @@ function cargar(i, autoplay) {
   const c = CANCIONES[indice];
   audio.src = REPO_BASE + c.archivo;
   $('tituloCancion').textContent = c.artista ? c.titulo + ' · ' + c.artista : c.titulo;
-  progreso.style.width = '0%';
+  progreso.style.transform = 'scaleX(0)';
   if ('mediaSession' in navigator) navigator.mediaSession.metadata = new MediaMetadata({ title: c.titulo, artist: c.artista || 'Un Universo Para Ti' });
   if (autoplay) fadeInAudio();
 }
@@ -655,7 +798,7 @@ function cargar(i, autoplay) {
 audio.addEventListener('ended', () => cargar(indice + 1, true));
 audio.addEventListener('playing', () => { erroresSeguidos = 0; });
 audio.addEventListener('error', () => { if (++erroresSeguidos < CANCIONES.length) cargar(indice + 1, true); });
-audio.addEventListener('timeupdate', () => { if (audio.duration) progreso.style.width = (audio.currentTime / audio.duration * 100) + '%'; });
+audio.addEventListener('timeupdate', () => { if (audio.duration) progreso.style.transform = 'scaleX(' + (audio.currentTime / audio.duration) + ')'; });
 barra.addEventListener('click', e => {
   const r = barra.getBoundingClientRect();
   if (audio.duration) audio.currentTime = audio.duration * ((e.clientX - r.left) / r.width);
